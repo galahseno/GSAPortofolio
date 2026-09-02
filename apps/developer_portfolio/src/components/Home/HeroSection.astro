@@ -1,0 +1,205 @@
+---
+import HeroAnimator from "./HeroAnimator";
+import { HERO_CONTENT } from "./heroContent";
+import { DEVELOPER_SNIPPET, type TokenColor } from "./developerSnippet";
+import { SPRITE_URL } from "../../constants/paths";
+import composeMark from "../../icons/compose-multiplatform.svg?raw";
+import kotlinMark from "../../icons/kotlin.svg?raw";
+
+const COLOR_MAP: Record<TokenColor, string> = {
+  keyword: "var(--code-keyword)",
+  class: "var(--code-class)",
+  property: "var(--code-property)",
+  string: "var(--code-string)",
+  function: "var(--code-function)",
+  punctuation: "var(--code-punctuation)",
+};
+
+const SOCIAL_LINKS = [
+  { href: HERO_CONTENT.github, label: "GitHub", iconId: "github-icon" },
+  { href: HERO_CONTENT.linkedin, label: "LinkedIn", iconId: "linkedin-icon" },
+];
+---
+
+<section
+  id="home"
+  data-screen-label="Home"
+  style="min-height: 16vh; display: flex; flex-direction: column; justify-content: center; padding: var(--space-10) 0 var(--space-16)"
+>
+  <HeroAnimator client:load>
+    <div
+      style="display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: var(--space-12); align-items: center"
+    >
+      <div
+        style="display: flex; flex-direction: column; gap: var(--space-6); min-width: 0"
+      >
+        <h1
+          style="display: flex; flex-direction: column; gap: var(--space-6); margin: 0; font-family: var(--font-display); font-weight: var(--weight-semibold); font-size: clamp(28px, 4vw, 44px); line-height: 1.05; letter-spacing: -0.035em; color: var(--text-heading)"
+        >
+          <span data-reveal style="display: block; color: var(--text-body)">
+            <span aria-hidden="true" class="logo-badge">
+              <span
+                class="logo-compose-layer"
+                data-logo-compose
+                set:html={composeMark}
+              />
+              <span class="logo-morph-layer" set:html={kotlinMark} />
+            </span>{HERO_CONTENT.greetingLine}
+          </span>
+          <span data-reveal>
+            <span aria-hidden="true" data-rotate-text>{HERO_CONTENT.name}</span
+            ><span style="color: var(--accent)">.</span>
+            <span class="sr-only"
+              >{HERO_CONTENT.name} — {HERO_CONTENT.role}</span
+            >
+          </span>
+        </h1>
+
+        <p
+          data-reveal
+          style="margin: 0; max-width: 54ch; font-size: var(--text-lead); line-height: 1.65; color: var(--text-body)"
+        >
+          {HERO_CONTENT.lead}
+        </p>
+
+        <div
+          data-reveal
+          style="display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3)"
+        >
+          <button
+            type="button"
+            class="group hover:![background-color:var(--accent-hover)] hover:![transform:translateY(-2px)] hover:![box-shadow:var(--shadow-accent)] active:scale-[0.97]"
+            style="display: inline-flex; align-items: center; gap: 8px; height: 48px; padding: 0 var(--space-5); border-radius: var(--radius-control); border: none; cursor: pointer; background: var(--accent); color: var(--text-on-accent); font-family: var(--font-core); font-weight: var(--weight-semibold); font-size: var(--text-sm); white-space: nowrap; transition: var(--transition-control)"
+          >
+            <svg
+              width="18"
+              height="18"
+              aria-hidden="true"
+              class="transition-transform duration-300 group-hover:translate-y-[3px]"
+              ><use href={`${SPRITE_URL}#download-icon`}></use></svg
+            >
+            Download CV
+          </button>
+          {
+            SOCIAL_LINKS.map((link) => (
+              <a
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={link.label}
+                class="group hover:![border-color:var(--accent)] hover:![color:var(--text-accent)] hover:![transform:translateY(-2px)] hover:![box-shadow:var(--shadow-sm)] active:scale-[0.94]"
+                style="display: inline-flex; align-items: center; justify-content: center; width: 48px; height: 48px; border-radius: var(--radius-circle); border: 1px solid var(--border-default); color: var(--text-body); transition: var(--transition-control)"
+              >
+                <svg
+                  width="19"
+                  height="19"
+                  aria-hidden="true"
+                  class="transition-transform duration-300 group-hover:scale-110"
+                  ><use href={`${SPRITE_URL}#${link.iconId}`}></use></svg
+                >
+              </a>
+            ))
+          }
+        </div>
+      </div>
+
+      <div style="min-width: 0">
+        <div
+          data-cursor-area
+          class="hover:-translate-y-1 hover:![box-shadow:var(--shadow-md)] hover:![border-color:var(--border-default)]"
+          style="position: relative; border: 1px solid var(--border-subtle); border-radius: var(--radius-lg); box-shadow: var(--shadow-sm); overflow: hidden; background: var(--surface-card); transition: var(--transition-surface)"
+        >
+          <span
+            aria-hidden="true"
+            data-cursor-dot
+            style="position: absolute; top: 0; left: 0; width: 14px; height: 14px; border-radius: var(--radius-circle); background: var(--accent); box-shadow: 0 0 18px 4px var(--accent-glow); pointer-events: none; opacity: 0; will-change: transform"
+          ></span>
+          <div
+            style="display: flex; align-items: center; gap: var(--space-3); padding: var(--space-3) var(--space-4); background: var(--surface-inset); border-bottom: 1px solid var(--border-subtle)"
+          >
+            <span aria-hidden="true" style="display: flex; gap: 8px">
+              <span
+                style="width: 12px; height: 12px; border-radius: var(--radius-circle); background: #ff5f57"
+              ></span>
+              <span
+                style="width: 12px; height: 12px; border-radius: var(--radius-circle); background: #febc2e"
+              ></span>
+              <span
+                style="width: 12px; height: 12px; border-radius: var(--radius-circle); background: #28c840"
+              ></span>
+            </span>
+            <span
+              style="font-family: var(--font-mono); font-size: 12px; letter-spacing: 0.02em; color: var(--text-accent)"
+              >Developer.kt</span
+            >
+          </div>
+          <pre
+            style="margin: 0; padding: var(--space-6); font-family: var(--font-mono); font-size: 13.5px; line-height: 1.85; white-space: pre-wrap; overflow-wrap: break-word; tab-size: 2; color: var(--text-body)">{
+            DEVELOPER_SNIPPET.map((line) => (
+              <div data-code-line>{line.map((tok) => (
+                <span style={{ color: tok.color ? COLOR_MAP[tok.color] : undefined }} set:text={tok.text} />
+              ))}</div>
+            ))
+          }</pre>
+        </div>
+      </div>
+    </div>
+  </HeroAnimator>
+</section>
+
+<style>
+  .logo-badge {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: clamp(28px, 3.6vw, 46px);
+    height: clamp(28px, 3.6vw, 46px);
+    margin-right: var(--space-3);
+    vertical-align: -0.14em;
+    animation: kotlin-wiggle 6s ease-in-out infinite;
+    transform-origin: 50% 85%;
+  }
+
+  .logo-compose-layer,
+  .logo-morph-layer {
+    position: absolute;
+    inset: 0;
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  .logo-compose-layer {
+    opacity: 0;
+  }
+
+  .logo-compose-layer svg,
+  .logo-morph-layer svg {
+    display: block;
+    width: 100%;
+    height: 100%;
+  }
+
+  @keyframes kotlin-wiggle {
+    0% {
+      transform: rotate(0deg);
+    }
+    10% {
+      transform: rotate(-12deg);
+    }
+    20% {
+      transform: rotate(10deg);
+    }
+    30% {
+      transform: rotate(-8deg);
+    }
+    40% {
+      transform: rotate(6deg);
+    }
+    50%,
+    100% {
+      transform: rotate(0deg);
+    }
+  }
+</style>

@@ -1,5 +1,6 @@
 ---
 import Navigation from "../components/Navigation/Navigation";
+import Footer from "../components/Footer/Footer.astro";
 import "../styles/tokens.css";
 
 interface Props {
@@ -35,5 +36,6 @@ const { title = "GSA — Developer Portfolio" } = Astro.props;
   <body>
     <Navigation client:load />
     <slot />
+    <Footer />
   </body>
 </html>

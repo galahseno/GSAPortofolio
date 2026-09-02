@@ -1,14 +1,9 @@
 ---
 import BaseLayout from "../layouts/BaseLayout.astro";
+import HeroSection from "../components/Home/HeroSection.astro";
+import { NAV_ITEMS } from "../components/Navigation/navItems";
 
-const sections = [
-  { id: "about", label: "About" },
-  { id: "experience", label: "Experience" },
-  { id: "project", label: "Projects" },
-  { id: "contact", label: "Contact" },
-];
-
-const year = new Date().getFullYear();
+const sections = NAV_ITEMS.filter((item) => item.id !== "home");
 ---
 
 <BaseLayout>
@@ -22,20 +17,7 @@ const year = new Date().getFullYear();
     <main
       style="position: relative; max-width: var(--content-wide); margin: 0 auto; padding: var(--space-24) var(--space-6)"
     >
-      <section
-        id="home"
-        data-screen-label="Home"
-        style="min-height: 82vh; display: flex; flex-direction: column; justify-content: center; padding: var(--space-10) 0 var(--space-16)"
-      >
-        <h1
-          style="margin: 0; font-family: var(--font-display); font-weight: var(--weight-semibold); font-size: clamp(38px, 5.2vw, 68px); line-height: 1.05; letter-spacing: -0.035em; color: var(--text-heading)"
-        >
-          Home
-        </h1>
-        <p style="margin: var(--space-4) 0 0; max-width: 54ch; font-size: var(--text-lead); color: var(--text-muted)">
-          Content coming soon.
-        </p>
-      </section>
+      <HeroSection />
 
       {
         sections.map((section) => (
@@ -56,13 +38,5 @@ const year = new Date().getFullYear();
         ))
       }
     </main>
-
-    <footer
-      style="position: relative; max-width: var(--content-wide); margin: 0 auto; padding: var(--space-8) var(--space-6); border-top: 1px solid var(--border-subtle); display: flex; justify-content: center; text-align: center"
-    >
-      <span style="font-size: var(--text-xs); color: var(--text-muted)">
-        © {year} Galah Seno Adjie — All rights reserved
-      </span>
-    </footer>
   </div>
 </BaseLayout>

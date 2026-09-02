@@ -1,4 +1,5 @@
 import { SPRITE_URL } from "../../constants/paths";
+import { ICON_BUTTON_CLASS } from "./iconButtonClass";
 
 function toggleTheme() {
   const root = document.documentElement;
@@ -18,7 +19,7 @@ export default function ThemeToggleButton() {
       onClick={toggleTheme}
       aria-label="Switch theme"
       title="Switch theme"
-      className="inline-flex h-[34px] w-[34px] items-center justify-center rounded-full border border-transparent bg-transparent text-[var(--text-muted)] transition-[color,background-color] duration-150 ease-out hover:bg-[color-mix(in_oklch,var(--text-heading)_8%,transparent)] hover:text-[var(--text-accent)]"
+      className={ICON_BUTTON_CLASS}
     >
       <svg width={16} height={16} aria-hidden="true" className="dark:hidden">
         <use href={`${SPRITE_URL}#sun-icon`} />
