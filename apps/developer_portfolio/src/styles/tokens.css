@@ -42,6 +42,7 @@
   --bg-page: var(--sand-50);
   --surface-card: var(--sand-0);
   --surface-inset: var(--sand-100);
+  --surface-hover: var(--sand-100);
 
   --text-heading: var(--sand-900);
   --text-body: var(--sand-700);
@@ -52,15 +53,23 @@
 
   --border-subtle: var(--sand-200);
   --border-default: var(--sand-300);
+  --border-strong: var(--sand-400);
+  --border-accent: var(--orange-500);
 
   --accent: var(--orange-500);
   --accent-hover: var(--orange-600);
   --accent-soft: var(--orange-100);
   --accent-glow: color-mix(in oklch, var(--orange-400) 22%, transparent);
   --focus-ring: var(--orange-500);
+  --ring-focus: 0 0 0 3px color-mix(in oklch, var(--focus-ring) 35%, transparent);
+  --green-400: #4fb477;
+  --red-400: #e4574f;
+  --status-success: var(--green-400);
+  --status-danger: var(--red-400);
   color-scheme: light;
 
   /* Spacing */
+  --space-1: 4px;
   --space-2: 8px;
   --space-3: 12px;
   --space-4: 16px;
@@ -71,7 +80,8 @@
   --space-12: 48px;
   --space-16: 64px;
   --space-24: 96px;
-  --content-wide: 1200px;
+  --content-max: 720px;
+  --content-wide: 1300px;
 
   /* Radius */
   --radius-sm: 8px;
@@ -93,12 +103,17 @@
   --weight-semibold: 600;
   --weight-bold: 700;
   --text-lead: 1.1875rem;
+  --text-h2: clamp(1.75rem, 3vw, 2.25rem);
+  --text-h4: 1.125rem;
   --text-base: 1rem;
   --text-sm: 0.875rem;
   --text-xs: 0.8125rem;
   --leading-snug: 1.2;
   --leading-relaxed: 1.65;
+  --tracking-tightest: -0.035em;
   --tracking-tight: -0.02em;
+  --tracking-wide: 0.04em;
+  --tracking-label: 0.14em;
 
   /* Motion */
   --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
@@ -141,12 +156,21 @@
   --grad-page: radial-gradient(120% 80% at 50% -10%,
       color-mix(in oklch, var(--orange-400) 12%, transparent) 0%,
       transparent 60%);
+  --grad-bloom: radial-gradient(60% 55% at 50% 0%,
+      var(--accent-glow) 0%,
+      transparent 72%);
+  --grad-hairline: linear-gradient(90deg,
+      transparent,
+      var(--border-default) 20%,
+      var(--border-default) 80%,
+      transparent);
 }
 
 :root[data-theme="dark"] {
   --bg-page: var(--sand-950);
   --surface-card: #191615;
   --surface-inset: #141211;
+  --surface-hover: #232020;
 
   --text-heading: #f7f4f2;
   --text-body: #c9c1bb;
@@ -157,6 +181,8 @@
 
   --border-subtle: #282422;
   --border-default: #363130;
+  --border-strong: #4b4442;
+  --border-accent: var(--orange-400);
 
   --accent: var(--orange-400);
   --accent-hover: var(--orange-300);
@@ -195,10 +221,6 @@
     --dur-fast: 0ms;
     --dur-base: 0ms;
   }
-}
-
-@theme {
-  --font-mono: var(--font-mono);
 }
 
 *,
@@ -272,6 +294,14 @@ a:hover {
 
 section[id] {
   scroll-margin-top: 96px;
+}
+
+.section-stack {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-10);
+  padding: calc(var(--space-16) * 2) 0 var(--space-16);
 }
 
 .nav-glass,

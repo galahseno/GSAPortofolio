@@ -1,0 +1,83 @@
+---
+import SectionHeading from "../shared/SectionHeading.astro";
+import { EXPERIENCE_CONTENT } from "./experienceContent";
+
+const { ghost, eyebrow, roles } = EXPERIENCE_CONTENT;
+---
+
+<section
+  id="experience"
+  data-screen-label="Experience"
+  class="section-stack"
+>
+    <div>
+      <SectionHeading
+        ghost={ghost}
+        eyebrow={eyebrow}
+        eyebrowGhostAlign={true}
+        eyebrowSize="40px"
+      />
+    </div>
+
+    <div style="display: flex; flex-direction: column">
+      {
+        roles.map((item, index) => {
+          const isLast = index === roles.length - 1;
+          const dotStyle = item.current
+            ? "background: var(--accent); border: 1px solid var(--accent); box-shadow: 0 0 0 4px color-mix(in oklch, var(--accent) 14%, transparent)"
+            : "background: var(--surface-card); border: 1px solid var(--border-strong); box-shadow: none";
+
+          return (
+            <div
+              style="position: relative; padding: 0 0 var(--space-12) var(--space-8)"
+            >
+              {!isLast && (
+                <span
+                  aria-hidden="true"
+                  style="position: absolute; left: 5px; top: 14px; bottom: 0; width: 1px; background: var(--border-subtle)"
+                />
+              )}
+              <span
+                aria-hidden="true"
+                style={`position: absolute; left: 0; top: 8px; width: 11px; height: 11px; border-radius: var(--radius-circle); ${dotStyle}`}
+              />
+
+              <div style="display: flex; flex-direction: column; gap: var(--space-2)">
+                <span style="font-family: var(--font-mono); font-size: var(--text-xs); letter-spacing: 0.04em; color: var(--text-faint)">
+                  {item.period}
+                </span>
+
+                <h3
+                  style="margin: 0; font-family: var(--font-display); font-weight: var(--weight-semibold); font-size: var(--text-h4); line-height: 1.2; letter-spacing: var(--tracking-tight); color: var(--text-heading)"
+                >
+                  {item.role}
+                </h3>
+
+                <div
+                  style="font-size: var(--text-sm); font-weight: var(--weight-medium); color: var(--text-body)"
+                >
+                  {item.company}
+                </div>
+
+                <p
+                  style="margin: var(--space-2) 0 0; max-width: var(--content-max); font-size: var(--text-base); line-height: 1.65; color: var(--text-muted)"
+                >
+                  {item.description}
+                </p>
+
+                <div style="display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-4)">
+                  {item.tags.map((tag) => (
+                    <span
+                      style="display: inline-flex; align-items: center; height: 28px; padding: 0 var(--space-3); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: var(--text-xs); line-height: 1; color: var(--text-muted); white-space: nowrap"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            </div>
+          );
+        })
+      }
+    </div>
+</section>

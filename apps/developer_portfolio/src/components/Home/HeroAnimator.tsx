@@ -33,8 +33,9 @@ export default function HeroAnimator({ children }: HeroAnimatorProps) {
       if (reduceMotion) return;
       if (!fontsReady) return;
 
-      const leftItems = gsap.utils.toArray<HTMLElement>("[data-reveal]");
-      const codeLines = gsap.utils.toArray<HTMLElement>("[data-code-line]");
+      const root = containerRef.current;
+      const leftItems = root ? Array.from(root.querySelectorAll<HTMLElement>("[data-reveal]")) : [];
+      const codeLines = root ? Array.from(root.querySelectorAll<HTMLElement>("[data-code-line]")) : [];
       const morphPath = containerRef.current?.querySelector<SVGPathElement>("[data-logo-morph]");
       const composeLayer = containerRef.current?.querySelector<HTMLElement>("[data-logo-compose]");
       const composePath = containerRef.current?.querySelector<SVGPathElement>("[data-logo-compose] path");

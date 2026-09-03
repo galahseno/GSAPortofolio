@@ -1,0 +1,76 @@
+---
+interface Props {
+  ghost: string;
+  eyebrow: string;
+  title?: string;
+  eyebrowHairline?: boolean;
+  eyebrowGhostAlign?: boolean;
+  eyebrowSize?: string;
+}
+
+const {
+  ghost,
+  eyebrow,
+  title,
+  eyebrowHairline = false,
+  eyebrowGhostAlign = false,
+  eyebrowSize = "11px",
+} = Astro.props;
+
+const eyebrowStyle = `font-size: ${eyebrowSize}; font-weight: var(--weight-semibold); letter-spacing: var(--tracking-label); text-transform: uppercase; color: var(--text-accent)`;
+---
+
+<div
+  style={eyebrowGhostAlign
+    ? "position: relative; min-height: calc(clamp(72px, 11vw, 150px) - 46px)"
+    : "position: relative"}
+>
+  <span
+    aria-hidden="true"
+    style="position: absolute; left: -6px; top: -58px; font-family: var(--font-display); font-weight: var(--weight-bold); font-size: clamp(72px, 11vw, 150px); line-height: 1; letter-spacing: -0.05em; white-space: nowrap; color: color-mix(in oklch, var(--text-heading) 6%, transparent); user-select: none; pointer-events: none"
+  >
+    {ghost}
+  </span>
+  {
+    title ? (
+      <>
+        <div style="display: flex; align-items: center; gap: var(--space-3)">
+          {eyebrowHairline && (
+            <span
+              aria-hidden="true"
+              style="width: 18px; height: 1px; background: currentColor"
+            />
+          )}
+          <span style={eyebrowStyle}>{eyebrow}</span>
+        </div>
+        <h2 style="margin: var(--space-3) 0 0; font-size: clamp(30px, 3.6vw, 46px); line-height: 1.05; letter-spacing: var(--tracking-tightest); max-width: 22ch; text-wrap: balance; color: var(--text-heading)">
+          {title}
+        </h2>
+      </>
+    ) : eyebrowGhostAlign ? (
+      <h2
+        style={`position: absolute; left: 0; top: calc(clamp(36px, 5.5vw, 75px) - 46px); transform: translateY(-50%); margin: 0; display: flex; align-items: center; gap: var(--space-3); white-space: nowrap; ${eyebrowStyle}`}
+      >
+        {eyebrowHairline && (
+          <span
+            aria-hidden="true"
+            style="width: 18px; height: 1px; background: currentColor"
+          />
+        )}
+        {eyebrow}
+      </h2>
+    ) : (
+      <h2
+        style={`margin: 0; display: flex; align-items: center; gap: var(--space-3); ${eyebrowStyle}`}
+      >
+        {eyebrowHairline && (
+          <span
+            aria-hidden="true"
+            style="width: 18px; height: 1px; background: currentColor"
+          />
+        )}
+        {eyebrow}
+      </h2>
+    )
+  }
+</div>
