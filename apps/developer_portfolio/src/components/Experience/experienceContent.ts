@@ -27,6 +27,28 @@ export const EXPERIENCE_CONTENT: ExperienceContent = {
       tags: ["Kotlin", "Swift/SwiftUI", "Flutter", "React Native", "KMP", "Compose Multiplatform"],
     },
     {
+      period: "Jun 2026 — Oct 2026",
+      current: false,
+      role: "Software Engineer",
+      company: "Danone Indonesia",
+      description:
+        "Built Lestari, a full-stack web and mobile platform for environmental project monitoring across four programs — Conservation, Regenerative Agriculture, WASH, and Biodiversity. Shipped dashboards, a carbon absorption calculator, offline field data tools, and led the migration to a unified Supabase backend with Clerk auth and in-app OTA updates.",
+      tags: [
+        "React.js",
+        "Next.js",
+        "TypeScript",
+        "tRPC",
+        "TanStack Query",
+        "Tailwind CSS",
+        "Supabase",
+        "Drizzle ORM",
+        "Neon (Postgres)",
+        "React Native",
+        "NativeWind",
+        "Clerk",
+      ],
+    },
+    {
       period: "Apr 2025 — Sep 2025",
       current: false,
       role: "Android Developer",

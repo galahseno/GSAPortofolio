@@ -1,5 +1,6 @@
 ---
 import SectionHeading from "../shared/SectionHeading.astro";
+import TagChip from "../shared/TagChip.astro";
 import { EXPERIENCE_CONTENT } from "./experienceContent";
 
 const { ghost, eyebrow, roles } = EXPERIENCE_CONTENT;
@@ -66,13 +67,7 @@ const { ghost, eyebrow, roles } = EXPERIENCE_CONTENT;
                 </p>
 
                 <div style="display: flex; flex-wrap: wrap; gap: var(--space-2); margin-top: var(--space-4)">
-                  {item.tags.map((tag) => (
-                    <span
-                      style="display: inline-flex; align-items: center; height: 28px; padding: 0 var(--space-3); border: 1px solid var(--border-subtle); border-radius: var(--radius-sm); font-family: var(--font-mono); font-size: var(--text-xs); line-height: 1; color: var(--text-muted); white-space: nowrap"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                  {item.tags.map((tag) => <TagChip>{tag}</TagChip>)}
                 </div>
               </div>
             </div>
