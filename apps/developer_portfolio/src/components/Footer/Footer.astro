@@ -1,4 +1,12 @@
 ---
+import type { Lang } from "../../i18n/config";
+import { UI } from "../../i18n/ui";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
 const year = new Date().getFullYear();
 ---
 
@@ -7,6 +15,6 @@ const year = new Date().getFullYear();
   style="position: relative; width: 100%; padding: var(--space-8) var(--space-6); display: flex; justify-content: center; text-align: center"
 >
   <span style="font-size: var(--text-xs); color: var(--text-muted)">
-    © {year} Galah Seno Adjie — All rights reserved
+    {UI[lang].footer(year)}
   </span>
 </footer>

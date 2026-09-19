@@ -2,16 +2,24 @@ import { useCallback, useEffect, useState } from "react";
 import { NAV_ITEMS } from "./navItems";
 import NavPill from "./NavPill";
 import ThemeToggleButton from "./ThemeToggleButton";
-import LanguageToggleStub from "./LanguageToggleStub";
+import LanguageToggle from "./LanguageToggle";
 import MobileMenuPanel from "./MobileMenuPanel";
 import { useScrollSpy } from "./hooks/useScrollSpy";
 import { usePillMeasure } from "./hooks/usePillMeasure";
 import { ICON_BUTTON_CLASS } from "./iconButtonClass";
 import { SPRITE_URL } from "../../constants/paths";
+import type { Lang } from "../../i18n/config";
+import { UI } from "../../i18n/ui";
 
 const SCROLL_OFFSET = 96;
 
-export default function Navigation() {
+interface NavigationProps {
+  lang: Lang;
+}
+
+export default function Navigation({ lang }: NavigationProps) {
+  const items = NAV_ITEMS[lang];
+  const ui = UI[lang];
   const [activeId, setActiveId] = useScrollSpy();
   const { rowRef, registerLink, pill, squish } = usePillMeasure(activeId);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -113,7 +121,7 @@ export default function Navigation() {
           style={{ position: "relative", alignItems: "center", gap: 2, overflow: "hidden" }}
         >
           <NavPill pill={pill} squish={squish} />
-          {NAV_ITEMS.map((item) => {
+          {items.map((item) => {
             const isActive = item.id === activeId;
             return (
               <a
@@ -161,12 +169,12 @@ export default function Navigation() {
 
         {/* Controls */}
         <div style={{ display: "flex", alignItems: "center", gap: 2 }}>
-          <ThemeToggleButton />
-          <LanguageToggleStub />
+          <ThemeToggleButton label={ui.switchTheme} />
+          <LanguageToggle lang={lang} />
           <button
             type="button"
             data-mobile-trigger
-            aria-label={mobileOpen ? "Close menu" : "Open menu"}
+            aria-label={mobileOpen ? ui.closeMenu : ui.openMenu}
             aria-expanded={mobileOpen}
             onClick={() => setMobileOpen((open) => !open)}
             className={`${ICON_BUTTON_CLASS} md:hidden`}
@@ -179,7 +187,7 @@ export default function Navigation() {
       </div>
 
       <div className="md:hidden">
-        <MobileMenuPanel items={NAV_ITEMS} activeId={activeId} open={mobileOpen} onNavigate={go} />
+        <MobileMenuPanel items={items} activeId={activeId} open={mobileOpen} onNavigate={go} />
       </div>
     </div>
   );

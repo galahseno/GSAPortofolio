@@ -1,16 +1,18 @@
 ---
 import SectionHeading from "../shared/SectionHeading.astro";
 import ProjectCard from "./ProjectCard.astro";
+import type { Lang } from "../../i18n/config";
 import { PROJECTS_CONTENT } from "./projectsContent";
 
-const { ghost, eyebrow, groups } = PROJECTS_CONTENT;
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const { ghost, eyebrow, groups } = PROJECTS_CONTENT[lang];
 ---
 
-<section
-  id="project"
-  data-screen-label="Projects"
-  class="section-stack"
->
+<section id="project" data-screen-label="Projects" class="section-stack">
   <div>
     <SectionHeading
       ghost={ghost}
@@ -36,7 +38,7 @@ const { ghost, eyebrow, groups } = PROJECTS_CONTENT;
 
           <div class="project-grid">
             {group.projects.map((project) => (
-              <ProjectCard project={project} />
+              <ProjectCard project={project} lang={lang} />
             ))}
           </div>
         </div>
@@ -46,14 +48,15 @@ const { ghost, eyebrow, groups } = PROJECTS_CONTENT;
 </section>
 
 <style>
-  /* Two columns at most, one below ~712px. The 1px keeps the auto-fit count
-     off the exact two-column boundary, where float rounding can drop to one. */
   .project-grid {
     display: grid;
     gap: var(--space-8);
     grid-template-columns: repeat(
       auto-fit,
-      minmax(min(100%, max(340px, calc((100% - var(--space-8)) / 2 - 1px))), 1fr)
+      minmax(
+        min(100%, max(340px, calc((100% - var(--space-8)) / 2 - 1px))),
+        1fr
+      )
     );
   }
 </style>

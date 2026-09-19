@@ -4,12 +4,13 @@ import { useGSAP } from "@gsap/react";
 import { ScrambleTextPlugin } from "gsap/ScrambleTextPlugin";
 import { SplitText } from "gsap/SplitText";
 import { MorphSVGPlugin } from "gsap/MorphSVGPlugin";
-import { HERO_CONTENT } from "./heroContent";
 import { useFontsReady } from "../../hooks/useFontsReady";
 
 gsap.registerPlugin(useGSAP, ScrambleTextPlugin, SplitText, MorphSVGPlugin);
 
 interface HeroAnimatorProps {
+  name: string;
+  role: string;
   children: ReactNode;
 }
 
@@ -23,7 +24,7 @@ const SPACE_EM = 0.3;
 const SEG = IN_SPAN + HOLD;
 const CYCLE = SEG * 2;
 
-export default function HeroAnimator({ children }: HeroAnimatorProps) {
+export default function HeroAnimator({ name, role, children }: HeroAnimatorProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const fontsReady = useFontsReady();
 
@@ -55,11 +56,11 @@ export default function HeroAnimator({ children }: HeroAnimatorProps) {
 
       if (textEl && morphPath && composeLayer && composePath) {
         const kotlinD = morphPath.getAttribute("d") ?? "";
-        const prepareRow = (el: HTMLElement, name: string, role: string) => {
-          const maxLen = Math.max(name.length, role.length);
+        const prepareRow = (el: HTMLElement, nameText: string, roleText: string) => {
+          const maxLen = Math.max(nameText.length, roleText.length);
           const pad = (word: string) => Array.from({ length: maxLen }, (_, i) => word[i] ?? " ");
-          const nameChars = pad(name);
-          const roleChars = pad(role);
+          const nameChars = pad(nameText);
+          const roleChars = pad(roleText);
 
           el.textContent = "·".repeat(maxLen);
           const split = SplitText.create(el, { type: "chars", aria: "none", autoSplit: false });
@@ -87,7 +88,7 @@ export default function HeroAnimator({ children }: HeroAnimatorProps) {
           return { split, chars, nameChars, roleChars, nameWidths, roleWidths };
         };
 
-        const row = prepareRow(textEl, HERO_CONTENT.name, HERO_CONTENT.role);
+        const row = prepareRow(textEl, name, role);
         splitRow = row.split;
 
         const morphTo = (
@@ -188,7 +189,7 @@ export default function HeroAnimator({ children }: HeroAnimatorProps) {
         }
       };
     },
-    { scope: containerRef, dependencies: [fontsReady] },
+    { scope: containerRef, dependencies: [fontsReady, name, role] },
   );
 
   return <div ref={containerRef}>{children}</div>;

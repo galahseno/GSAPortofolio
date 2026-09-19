@@ -3,14 +3,18 @@ import { Image } from "astro:assets";
 import type { ImageMetadata } from "astro";
 import { SPRITE_URL } from "../../constants/paths";
 import TagChip from "../shared/TagChip.astro";
+import type { Lang } from "../../i18n/config";
+import { UI } from "../../i18n/ui";
 import type { Project } from "./projectsContent";
 
 interface Props {
   project: Project;
+  lang: Lang;
 }
 
-const { project } = Astro.props;
+const { project, lang } = Astro.props;
 const { title, year, platform, org, description, tags, links, cover } = project;
+const ui = UI[lang];
 
 const covers = import.meta.glob<{ default: ImageMetadata }>(
   "../../assets/projects/*.{jpg,jpeg,png,webp,avif}",
@@ -27,7 +31,7 @@ const coverImage = cover
       coverImage ? (
         <Image
           src={coverImage}
-          alt={`${title} cover`}
+          alt={ui.projectCoverAlt(title)}
           widths={[480, 720, 960, 1200]}
           sizes="(max-width: 760px) calc(100vw - 48px), 610px"
           format="webp"
@@ -45,7 +49,7 @@ const coverImage = cover
             <use href={`${SPRITE_URL}#image-icon`} />
           </svg>
           <span style="font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--text-faint)">
-            {title} — cover 16:10
+            {ui.projectCoverPlaceholder(title)}
           </span>
         </div>
       )
@@ -90,7 +94,7 @@ const coverImage = cover
               href={link.href}
               target="_blank"
               rel="noopener noreferrer"
-              aria-label={`${link.label} for ${title}`}
+              aria-label={ui.projectLinkAria(link.label, title)}
             >
               <svg aria-hidden="true" width="16" height="16">
                 <use href={`${SPRITE_URL}#${link.icon}-icon`} />

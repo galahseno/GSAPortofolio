@@ -3,8 +3,18 @@ import HeroAnimator from "./HeroAnimator";
 import { HERO_CONTENT } from "./heroContent";
 import { DEVELOPER_SNIPPET, type TokenColor } from "./developerSnippet";
 import { SPRITE_URL } from "../../constants/paths";
+import type { Lang } from "../../i18n/config";
+import { UI } from "../../i18n/ui";
 import composeMark from "../../icons/compose-multiplatform.svg?raw";
 import kotlinMark from "../../icons/kotlin.svg?raw";
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = HERO_CONTENT[lang];
+const ui = UI[lang];
 
 const COLOR_MAP: Record<TokenColor, string> = {
   keyword: "var(--code-keyword)",
@@ -16,8 +26,8 @@ const COLOR_MAP: Record<TokenColor, string> = {
 };
 
 const SOCIAL_LINKS = [
-  { href: HERO_CONTENT.github, label: "GitHub", iconId: "github-icon" },
-  { href: HERO_CONTENT.linkedin, label: "LinkedIn", iconId: "linkedin-icon" },
+  { href: c.github, label: "GitHub", iconId: "github-icon" },
+  { href: c.linkedin, label: "LinkedIn", iconId: "linkedin-icon" },
 ];
 ---
 
@@ -26,7 +36,7 @@ const SOCIAL_LINKS = [
   data-screen-label="Home"
   style="min-height: 16vh; display: flex; flex-direction: column; justify-content: center; padding: var(--space-10) 0 var(--space-16)"
 >
-  <HeroAnimator client:load>
+  <HeroAnimator client:load name={c.name} role={c.role}>
     <div
       style="display: grid; grid-template-columns: repeat(auto-fit, minmax(380px, 1fr)); gap: var(--space-12); align-items: center"
     >
@@ -44,13 +54,13 @@ const SOCIAL_LINKS = [
                 set:html={composeMark}
               />
               <span class="logo-morph-layer" set:html={kotlinMark} />
-            </span>{HERO_CONTENT.greetingLine}
+            </span>{c.greetingLine}
           </span>
           <span data-reveal>
-            <span aria-hidden="true" data-rotate-text>{HERO_CONTENT.name}</span
+            <span aria-hidden="true" data-rotate-text>{c.name}</span
             ><span style="color: var(--accent)">.</span>
             <span class="sr-only"
-              >{HERO_CONTENT.name} — {HERO_CONTENT.role}</span
+              >{c.name} — {c.role}</span
             >
           </span>
         </h1>
@@ -59,17 +69,18 @@ const SOCIAL_LINKS = [
           data-reveal
           style="margin: 0; max-width: 54ch; font-size: var(--text-lead); line-height: 1.65; color: var(--text-body)"
         >
-          {HERO_CONTENT.lead}
+          {c.lead}
         </p>
 
         <div
           data-reveal
           style="display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-3)"
         >
-          <button
-            type="button"
+          <a
+            href={c.resumeUrl}
+            download={c.resumeDownloadName}
             class="group hover:![background-color:var(--accent-hover)] hover:![transform:translateY(-2px)] hover:![box-shadow:var(--shadow-accent)] active:scale-[0.97]"
-            style="display: inline-flex; align-items: center; gap: 8px; height: 48px; padding: 0 var(--space-5); border-radius: var(--radius-control); border: none; cursor: pointer; background: var(--accent); color: var(--text-on-accent); font-family: var(--font-core); font-weight: var(--weight-semibold); font-size: var(--text-sm); white-space: nowrap; transition: var(--transition-control)"
+            style="display: inline-flex; align-items: center; gap: 8px; height: 48px; padding: 0 var(--space-5); border-radius: var(--radius-control); border: none; cursor: pointer; background: var(--accent); color: var(--text-on-accent); font-family: var(--font-core); font-weight: var(--weight-semibold); font-size: var(--text-sm); white-space: nowrap; text-decoration: none; transition: var(--transition-control)"
           >
             <svg
               width="18"
@@ -78,8 +89,8 @@ const SOCIAL_LINKS = [
               class="transition-transform duration-300 group-hover:translate-y-[3px]"
               ><use href={`${SPRITE_URL}#download-icon`}></use></svg
             >
-            Download CV
-          </button>
+            {ui.downloadCv}
+          </a>
           {
             SOCIAL_LINKS.map((link) => (
               <a

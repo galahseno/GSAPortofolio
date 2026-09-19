@@ -1,0 +1,70 @@
+---
+import portrait from "../../assets/portrait.jpg";
+import { BASE_URL } from "../../constants/paths";
+import type { Lang } from "../../i18n/config";
+import { UI } from "../../i18n/ui";
+import { HERO_CONTENT } from "../Home/heroContent";
+
+interface Props {
+  lang: Lang;
+  canonical: string;
+}
+
+const { lang, canonical } = Astro.props;
+const { name, role, github, linkedin } = HERO_CONTENT[lang];
+const { siteDescription } = UI[lang];
+
+const home = new URL(BASE_URL, Astro.site).href;
+const personId = `${home}#person`;
+
+const graph = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": personId,
+      name,
+      alternateName: "GSA",
+      url: home,
+      image: new URL(portrait.src, Astro.site).href,
+      jobTitle: role,
+      description: siteDescription,
+      sameAs: [github, linkedin],
+      knowsAbout: [
+        "Kotlin",
+        "Compose Multiplatform",
+        "Android",
+        "iOS",
+        "Flutter",
+        "React Native",
+      ],
+      address: {
+        "@type": "PostalAddress",
+        addressRegion: "Central Java",
+        addressCountry: "ID",
+      },
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${home}#website`,
+      url: home,
+      name,
+      inLanguage: lang,
+      publisher: { "@id": personId },
+    },
+    {
+      "@type": "ProfilePage",
+      "@id": `${canonical}#profilepage`,
+      url: canonical,
+      inLanguage: lang,
+      isPartOf: { "@id": `${home}#website` },
+      mainEntity: { "@id": personId },
+    },
+  ],
+};
+
+// Escape "<" so the JSON can never close the script tag early.
+const json = JSON.stringify(graph).replace(/</g, "\\u003c");
+---
+
+<script type="application/ld+json" is:inline set:html={json} />

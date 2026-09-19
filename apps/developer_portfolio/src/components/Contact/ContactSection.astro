@@ -1,10 +1,18 @@
 ---
 import SectionHeading from "../shared/SectionHeading.astro";
 import ContactForm from "./ContactForm";
+import CopyEmailButton from "./CopyEmailButton";
 import { SPRITE_URL } from "../../constants/paths";
+import type { Lang } from "../../i18n/config";
 import { CONTACT_CONTENT } from "./contactContent";
 
-const { ghost, eyebrow, title, intro, email, location, availability } = CONTACT_CONTENT;
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const { ghost, eyebrow, title, intro, email, copyEmail, emailCopied, location, availability } =
+  CONTACT_CONTENT[lang];
 
 const infoRowStyle =
   "display: flex; align-items: center; gap: var(--space-4); padding: var(--space-5) 0; border-top: 1px solid var(--border-subtle)";
@@ -37,12 +45,12 @@ const infoIconStyle =
             <svg aria-hidden="true" style={infoIconStyle}>
               <use href={`${SPRITE_URL}#mail-icon`} />
             </svg>
-            <a
-              href={`mailto:${email}`}
+            <span
               style="min-width: 0; flex: 1; font-family: var(--font-mono); font-size: var(--text-sm); color: var(--text-heading); overflow-wrap: anywhere"
             >
               {email}
-            </a>
+            </span>
+            <CopyEmailButton client:visible email={email} copyLabel={copyEmail} copiedLabel={emailCopied} />
           </div>
 
           <div style={infoRowStyle}>
@@ -62,7 +70,7 @@ const infoIconStyle =
       </div>
 
       <div style="flex: 1.4 1 420px; min-width: 0">
-        <ContactForm client:visible />
+        <ContactForm client:visible lang={lang} />
       </div>
     </div>
 </section>

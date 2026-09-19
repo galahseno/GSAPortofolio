@@ -12,13 +12,17 @@ function toggleTheme() {
   }
 }
 
-export default function ThemeToggleButton() {
+interface ThemeToggleButtonProps {
+  label: string;
+}
+
+export default function ThemeToggleButton({ label }: ThemeToggleButtonProps) {
   return (
     <button
       type="button"
       onClick={toggleTheme}
-      aria-label="Switch theme"
-      title="Switch theme"
+      aria-label={label}
+      title={label}
       className={ICON_BUTTON_CLASS}
     >
       <svg width={16} height={16} aria-hidden="true" className="dark:hidden">

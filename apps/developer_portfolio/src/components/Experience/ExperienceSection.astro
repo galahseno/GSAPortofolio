@@ -1,9 +1,15 @@
 ---
 import SectionHeading from "../shared/SectionHeading.astro";
 import TagChip from "../shared/TagChip.astro";
+import type { Lang } from "../../i18n/config";
 import { EXPERIENCE_CONTENT } from "./experienceContent";
 
-const { ghost, eyebrow, roles } = EXPERIENCE_CONTENT;
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const { ghost, eyebrow, roles } = EXPERIENCE_CONTENT[lang];
 ---
 
 <section

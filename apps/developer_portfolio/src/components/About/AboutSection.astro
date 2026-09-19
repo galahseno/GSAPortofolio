@@ -2,10 +2,16 @@
 import { Image } from "astro:assets";
 import { SPRITE_URL } from "../../constants/paths";
 import SectionHeading from "../shared/SectionHeading.astro";
+import type { Lang } from "../../i18n/config";
 import { ABOUT_CONTENT } from "./aboutContent";
 import portrait from "../../assets/portrait.jpg";
 
-const { paragraphs, portraitAlt, location, pipeline, stats } = ABOUT_CONTENT;
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const { ghost, eyebrow, paragraphs, portraitAlt, location, pipeline, stats } = ABOUT_CONTENT[lang];
 ---
 
 <section
@@ -15,8 +21,8 @@ const { paragraphs, portraitAlt, location, pipeline, stats } = ABOUT_CONTENT;
 >
     <div>
       <SectionHeading
-        ghost={ABOUT_CONTENT.ghost}
-        eyebrow={ABOUT_CONTENT.eyebrow}
+        ghost={ghost}
+        eyebrow={eyebrow}
         eyebrowGhostAlign={true}
         eyebrowSize="40px"
       />

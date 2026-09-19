@@ -1,0 +1,29 @@
+{
+  "name": "Galah Seno Adjie — Software Engineer",
+  "short_name": "GSA",
+  "description": "Portfolio of Galah Seno Adjie, a software engineer building Android, iOS, Web and cross-platform apps.",
+  "start_url": "/",
+  "display": "browser",
+  "background_color": "#fbfaf9",
+  "theme_color": "#e4622f",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512-maskable.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ]
+}

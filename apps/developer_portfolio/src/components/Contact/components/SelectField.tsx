@@ -12,7 +12,7 @@ export function SelectField({
   id: string;
   label: string;
   hint?: string;
-  options: string[];
+  options: { value: string; label: string }[];
 } & React.SelectHTMLAttributes<HTMLSelectElement>) {
   const [focused, setFocused] = useState(false);
   return (
@@ -25,8 +25,8 @@ export function SelectField({
         style={{ ...fieldStyle(focused, false, false), appearance: "none", cursor: "pointer" }}
       >
         {options.map((option) => (
-          <option key={option} value={option}>
-            {option}
+          <option key={option.value} value={option.value}>
+            {option.label}
           </option>
         ))}
       </select>

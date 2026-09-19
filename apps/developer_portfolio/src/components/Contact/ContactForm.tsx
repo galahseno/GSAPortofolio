@@ -1,6 +1,7 @@
 import { useRef, useState } from "react";
 import { SPRITE_URL } from "../../constants/paths";
 import { sendContactMessage } from "../../services/contactService";
+import type { Lang } from "../../i18n/config";
 import { CONTACT_CONTENT } from "./contactContent";
 import { SelectField } from "./components/SelectField";
 import { TextAreaField } from "./components/TextAreaField";
@@ -9,13 +10,18 @@ import { ToastPill } from "./ToastPill";
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-export default function ContactForm() {
-  const { form, toast } = CONTACT_CONTENT;
+interface ContactFormProps {
+  lang: Lang;
+}
 
-  const [values, setValues] = useState({
+export default function ContactForm({ lang }: ContactFormProps) {
+  const { form, toast } = CONTACT_CONTENT[lang];
+  const defaultNeed = form.needOptions[0].value;
+
+  const [values, setValues] = useState<{ name: string; email: string; need: string; message: string }>({
     name: "",
     email: "",
-    need: form.needOptions[0],
+    need: defaultNeed,
     message: "",
   });
   const [emailTouched, setEmailTouched] = useState(false);
@@ -25,6 +31,7 @@ export default function ContactForm() {
     null,
   );
   const toastTimerRef = useRef<number | null>(null);
+  const botcheckRef = useRef<HTMLInputElement>(null);
 
   const isEmailValid = EMAIL_REGEX.test(values.email);
   const showEmailError = emailTouched && !isEmailValid;
@@ -45,11 +52,19 @@ export default function ContactForm() {
 
     setSending(true);
     try {
-      await sendContactMessage(values);
-      setValues({ name: "", email: "", need: form.needOptions[0], message: "" });
+      const needLabel =
+        form.needOptions.find((option) => option.value === values.need)?.label ?? values.need;
+      await sendContactMessage({
+        ...values,
+        needLabel,
+        lang,
+        botcheck: botcheckRef.current?.checked ?? false,
+      });
+      setValues({ name: "", email: "", need: defaultNeed, message: "" });
       setEmailTouched(false);
       setToastState({ message: toast.messageSent, tone: "success" });
-    } catch {
+    } catch (error) {
+      console.error("Contact form submit failed:", error);
       setToastState({ message: toast.messageFailed, tone: "danger" });
     } finally {
       setSending(false);
@@ -84,6 +99,15 @@ export default function ContactForm() {
         onSubmit={handleSubmit}
         style={{ position: "relative", display: "flex", flexDirection: "column", gap: "var(--space-5)" }}
       >
+        <input
+          type="checkbox"
+          name="botcheck"
+          ref={botcheckRef}
+          tabIndex={-1}
+          autoComplete="off"
+          aria-hidden="true"
+          style={{ display: "none" }}
+        />
         <div
           style={{
             display: "grid",
